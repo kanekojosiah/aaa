@@ -1,0 +1,52 @@
+class BankAccount:
+    # Class variable
+    bank_name = "Python Bank"
+
+    def __init__(self, owner, balance=0.0):
+        # Instance variables
+        self.owner = owner
+        self.balance = float(balance)
+
+    def deposit(self, amount):
+        if amount <= 0:
+            print(f"[{self.owner}] Deposit amount must be positive.")
+            return False
+        self.balance += amount
+        print(f"[{self.owner}] Deposited {amount:.2f}. New balance: {self.balance:.2f}")
+        return True
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            print(f"[{self.owner}] Withdrawal amount must be positive.")
+            return False
+        if amount > self.balance:
+            print(f"[{self.owner}] Insufficient funds for withdrawal of {amount:.2f}. Current balance: {self.balance:.2f}")
+            return False
+        self.balance -= amount
+        print(f"[{self.owner}] Withdrew {amount:.2f}. New balance: {self.balance:.2f}")
+        return True
+
+    def show_balance(self):
+        print(f"[{self.owner}] Balance at {BankAccount.bank_name}: {self.balance:.2f}")
+
+
+# --- Demo: create two accounts, do deposits/withdrawals, show results ---
+if __name__ == "__main__":
+    acct1 = BankAccount("Alice", 100.00)
+    acct2 = BankAccount("Bob", 25.50)
+
+    acct1.deposit(50)        # Alice -> 150.00
+    acct1.withdraw(20)       # Alice -> 130.00
+
+    acct2.deposit(100)       # Bob -> 125.50
+    acct2.withdraw(200)      # Bob -> insufficient funds (no change)
+    acct2.withdraw(25.5)     # Bob -> 100.00
+
+    acct1.show_balance()
+    acct2.show_balance()
+
+    # Show that class variable applies to all accounts
+    print("\nChanging bank name...")
+    BankAccount.bank_name = "Community Credit Union"
+    acct1.show_balance()
+    acct2.show_balance()
